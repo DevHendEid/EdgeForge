@@ -30,7 +30,7 @@ dev = [
   "pre-commit>=4.0",
 ]
 databento = ["databento>=0.47"]
-live = ["websockets>=13"]
+live = ["websockets>=17.1"]
 
 [project.scripts]
 edgeforge = "edgeforge.cli.app:app"
