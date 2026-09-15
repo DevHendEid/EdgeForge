@@ -21,4 +21,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: aquasecurity/trivy-action@v0.36.0
-        with: { scan-type: fs, scan-ref: '.', severity: 'HIGH,CRITICAL', exit-code: '1' }
+        with:
+          version: 'v0.74.0'
+          scan-type: fs
+          scan-ref: '.'
+          severity: HIGH,CRITICAL
+          exit-code: '1'
