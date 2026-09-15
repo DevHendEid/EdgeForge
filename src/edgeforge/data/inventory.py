@@ -36,8 +36,17 @@ _DATA_SUFFIXES = {
     ".pcap",
     ".h5",
     ".hdf5",
+    ".pkl",
     ".feather",
     ".arrow",
+}
+
+_RESEARCH_WORKSPACE_ROOTS = {
+    "cme-databento",
+    "nq-research",
+    "orderbook-microstructure",
+    "backtesting-research",
+    "tooling",
 }
 
 
@@ -74,14 +83,18 @@ def _format(path: Path) -> str:
 
 def _source_hint(relative: str) -> str:
     parts = Path(relative).parts
-    if "official-samples" in parts and "databento" in parts:
+    lowered = tuple(part.lower() for part in parts)
+    if "official-samples" in lowered and "databento" in lowered:
         return "Databento official public sample / CME GLBX MDP3"
-    if "commercial" in parts and "cme" in parts:
+    if "commercial" in lowered and "cme" in lowered:
         return "CME commercial/user-entitled intake"
-    if "commercial" in parts and "databento" in parts:
+    if "commercial" in lowered and "databento" in lowered:
         return "Databento commercial/user-entitled intake"
-    if "external" in parts and "github" in parts:
+    if "external" in lowered and "github" in lowered:
         return "third-party GitHub research repository"
+    if lowered and lowered[0] in _RESEARCH_WORKSPACE_ROOTS:
+        repo = lowered[1] if len(lowered) > 1 else "unknown-repo"
+        return f"local clone of public research repository: {repo}"
     return "local/unknown"
 
 
@@ -90,11 +103,11 @@ def _evidence_level(path: Path, relative: str) -> EvidenceLevel:
     text = relative.lower()
     if "ohlcv" in name or any(token in name for token in ("1m", "5m", "1h", "daily")):
         return EvidenceLevel.OHLCV
-    if "mbo" in text or "orderbook" in text or "order-book" in text:
+    if "mbo" in text or "orderbook" in text or "order-book" in text or "level3" in text:
         return EvidenceLevel.L3
-    if "mbp" in text or "depth" in text or "level2" in text or "l2" in text:
+    if "mbp" in text or "depth" in text or "level2" in text or "/l2" in text:
         return EvidenceLevel.L2
-    if "trades" in text or "bbo" in text or "quotes" in text:
+    if "trades" in text or "bbo" in text or "quotes" in text or "taq" in text:
         return EvidenceLevel.L1
     if "official-samples/databento" in text and (name.endswith(".pcap") or name.endswith(".pcap.zst")):
         return EvidenceLevel.L3
@@ -103,16 +116,18 @@ def _evidence_level(path: Path, relative: str) -> EvidenceLevel:
 
 def _provenance(relative: str) -> tuple[ProvenanceClass, str | None]:
     text = relative.lower()
+    parts = Path(relative).parts
+    lowered = tuple(part.lower() for part in parts)
     if "data/external/official-samples/databento" in text:
         return ProvenanceClass.OFFICIAL_PUBLIC, None
     if "data/commercial/cme" in text or "data/commercial/databento" in text:
         return ProvenanceClass.USER_ENTITLED, None
     if "/results/" in text or text.startswith("results/"):
         return ProvenanceClass.DERIVED_ONLY, None
-    if "external/github" in text:
+    if "external/github" in text or (lowered and lowered[0] in _RESEARCH_WORKSPACE_ROOTS):
         return (
             ProvenanceClass.PUBLIC_LICENSE_UNCLEAR,
-            "public repository does not by itself establish data redistribution rights",
+            "public repository does not by itself establish market-data redistribution rights",
         )
     return ProvenanceClass.QUARANTINED, "source/license entitlement not established"
 
