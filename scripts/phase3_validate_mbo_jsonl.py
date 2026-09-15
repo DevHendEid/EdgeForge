@@ -49,17 +49,25 @@ def main() -> int:
     for event in adapter.read():
         validator.apply(event)
 
-    payload: dict[str, Any] = {}
-    for instrument in validator.instruments:
-        state = validator.state(instrument)
-        payload[instrument] = {
-            "checkpoint": asdict(validator.checkpoint(instrument)),
-            "sequence": asdict(state.sequence),
-            "status": state.status.value,
-        }
+    payload: dict[str, Any] = {
+        "instruments": {
+            instrument: {
+                "checkpoint": asdict(validator.checkpoint(instrument)),
+                "status": validator.state(instrument).status.value,
+            }
+            for instrument in validator.instruments
+        },
+        "streams": {
+            stream_id: asdict(validator.stream_diagnostics(stream_id))
+            for stream_id in validator.streams
+        },
+    }
 
     args.output.write_text(json.dumps(payload, indent=2, default=str) + "\n", encoding="utf-8")
-    print(f"Validated {len(rows)} decoded MBO rows across {len(payload)} instruments")
+    print(
+        f"Validated {len(rows)} decoded MBO rows across "
+        f"{len(validator.instruments)} instruments and {len(validator.streams)} streams"
+    )
     print(f"Wrote {args.output}")
     return 0
 
