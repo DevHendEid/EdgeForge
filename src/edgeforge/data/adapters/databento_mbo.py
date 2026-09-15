@@ -42,14 +42,20 @@ def _required(row: Mapping[str, Any], key: str) -> Any:
 class DatabentoMBOAdapter:
     """Normalize decoded Databento MBO rows into EdgeForge ``MarketEvent`` objects.
 
-    This adapter deliberately consumes *decoded* MBO rows.  It does not pretend that a
-    PCAP capture is already decoded MBO.  Raw CME MDP 3.0 packet/SBE decoding remains a
+    This adapter deliberately consumes *decoded* MBO rows. It does not pretend that a
+    PCAP capture is already decoded MBO. Raw CME MDP 3.0 packet/SBE decoding remains a
     separate provenance-preserving acquisition step.
 
     Databento MBO uses nanosecond UNIX timestamps, a 1e-9 price scale, venue sequence
-    numbers and one-character action/side codes.  Fill records are mapped to
+    numbers and one-character action/side codes. Fill records are mapped to
     ``Action.EXECUTE`` because they reduce a displayed resting order; Trade records are
     informational and do not mutate the resting book in EdgeForge's L3 engine.
+
+    Databento's normalized MBO schema does not expose CME's native PriorityID field.
+    EdgeForge therefore records a deterministic *stream-order priority surrogate* for
+    Add/Modify events. Snapshot Add rows are documented by Databento as preserving
+    priority order, making this useful for deterministic replay, but it must not be
+    represented as the native CME PriorityID in research claims.
     """
 
     def __init__(
@@ -68,6 +74,7 @@ class DatabentoMBOAdapter:
         self._strict = strict
 
     def read(self) -> Iterator[MarketEvent]:
+        priority_clock: dict[int, int] = {}
         for row in self._rows:
             action_code = str(_required(row, "action"))
             if action_code not in _ACTIONS:
@@ -97,21 +104,27 @@ class DatabentoMBOAdapter:
             price: int | None = None if price_value is None else int(price_value)
             size: int | None = None if size_value is None else int(size_value)
             sequence: int | None = None if sequence_value is None else int(sequence_value)
+            priority: int | None = None
 
-            # Book clear carries no side/order and undefined prices in provider data.
             if action is Action.CLEAR:
                 side = None
                 order_id = None
                 price = None
                 size = None
+                priority_clock[instrument_id] = 0
+            elif action in {Action.ADD, Action.MODIFY}:
+                next_priority = priority_clock.get(instrument_id, 0) + 1
+                priority_clock[instrument_id] = next_priority
+                priority = next_priority
 
-            # Trades can legitimately have no side and no order identifier.
             if action is Action.TRADE:
                 order_id = None
 
-            flags: tuple[str, ...] = ()
+            flag_items: list[str] = []
             if flags_value is not None:
-                flags = (f"databento_flags={int(flags_value)}",)
+                flag_items.append(f"databento_flags={int(flags_value)}")
+            if priority is not None:
+                flag_items.append("priority=stream_order_surrogate")
 
             yield MarketEvent(
                 venue=self._venue,
@@ -125,6 +138,7 @@ class DatabentoMBOAdapter:
                 price_scale=DATABENTO_PRICE_SCALE,
                 size=size,
                 order_id=order_id,
-                flags=flags,
+                priority=priority,
+                flags=tuple(flag_items),
                 source=self._source,
             )
