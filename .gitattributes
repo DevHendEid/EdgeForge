@@ -1,0 +1,36 @@
+# Git LFS is intentionally scoped to commercial CME/Databento data only.
+# Text metadata (README/JSON/YAML) remains normal Git.
+
+data/commercial/cme/*.dbn filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/**/*.dbn filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/*.dbn.zst filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/**/*.dbn.zst filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/*.zst filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/**/*.zst filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/*.parquet filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/**/*.parquet filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/*.csv filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/**/*.csv filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/*.csv.gz filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/**/*.csv.gz filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/*.gz filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/**/*.gz filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/*.zip filter=lfs diff=lfs merge=lfs -text
+data/commercial/cme/**/*.zip filter=lfs diff=lfs merge=lfs -text
+
+data/commercial/databento/*.dbn filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/**/*.dbn filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/*.dbn.zst filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/**/*.dbn.zst filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/*.zst filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/**/*.zst filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/*.parquet filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/**/*.parquet filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/*.csv filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/**/*.csv filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/*.csv.gz filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/**/*.csv.gz filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/*.gz filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/**/*.gz filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/*.zip filter=lfs diff=lfs merge=lfs -text
+data/commercial/databento/**/*.zip filter=lfs diff=lfs merge=lfs -text
