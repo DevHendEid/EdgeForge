@@ -1,0 +1,18 @@
+{
+  "provider": "CME Group",
+  "product": null,
+  "venue": null,
+  "instrument": null,
+  "feed_or_schema": null,
+  "start": null,
+  "end": null,
+  "retrieved_at": null,
+  "source_account_entitlement_note": null,
+  "files": [
+    {
+      "path": null,
+      "size_bytes": null,
+      "sha256": null
+    }
+  ]
+}
