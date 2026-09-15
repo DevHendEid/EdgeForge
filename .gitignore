@@ -26,3 +26,11 @@ __pycache__/
 # Generated canonical data
 /data/canonical/*
 !/data/canonical/.gitkeep
+
+# Scoped exception: commercial CME/Databento files may be tracked via Git LFS.
+# Keep all other raw/binary market data ignored by default.
+!data/commercial/
+!data/commercial/cme/
+!data/commercial/cme/**
+!data/commercial/databento/
+!data/commercial/databento/**
