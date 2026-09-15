@@ -3,7 +3,7 @@ on:
   push:
   pull_request:
   schedule: [{ cron: '17 3 * * 1' }]
-permissions: { contents: read, security-events: write }
+permissions: { contents: read, pull-requests: read, security-events: write }
 jobs:
   semgrep:
     runs-on: ubuntu-latest
