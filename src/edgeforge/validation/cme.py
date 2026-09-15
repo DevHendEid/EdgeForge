@@ -55,6 +55,12 @@ class ReplayCheckpoint:
     depth_hash: str
 
 
+@dataclass(frozen=True, slots=True)
+class QueueAhead:
+    orders_ahead: int
+    quantity_ahead: int
+
+
 @dataclass(slots=True)
 class CMEInstrumentState:
     book: L3OrderBook = field(default_factory=L3OrderBook)
@@ -68,7 +74,7 @@ class CMEReplayValidator:
 
     Venue sequence diagnostics are intentionally kept outside ``L3OrderBook`` because
     exchange/native messages may normalize into more than one MBO record with the same
-    venue sequence number.  The book therefore receives a copy with ``sequence=None``;
+    venue sequence number. The book therefore receives a copy with ``sequence=None``;
     regressions and gaps are tracked explicitly here instead of being conflated with a
     duplicate canonical event.
     """
@@ -78,6 +84,10 @@ class CMEReplayValidator:
         self.fail_on_gap = fail_on_gap
         self.fail_on_regression = fail_on_regression
 
+    @property
+    def instruments(self) -> tuple[str, ...]:
+        return tuple(sorted(self._states))
+
     def state(self, instrument: str) -> CMEInstrumentState:
         return self._states.setdefault(instrument, CMEInstrumentState())
 
@@ -86,6 +96,7 @@ class CMEReplayValidator:
 
     def apply(self, event: MarketEvent) -> None:
         state = self.state(event.instrument)
+        previous_sequence = state.sequence.last_sequence
         previous_gaps = state.sequence.gaps
         previous_regressions = state.sequence.regressions
         state.sequence.observe(event.sequence)
@@ -93,10 +104,13 @@ class CMEReplayValidator:
         if self.fail_on_regression and state.sequence.regressions > previous_regressions:
             raise ValueError(
                 f"CME sequence regression for {event.instrument}: {event.sequence} "
-                f"after {state.sequence.last_sequence}"
+                f"after {previous_sequence}"
             )
         if self.fail_on_gap and state.sequence.gaps > previous_gaps:
-            raise ValueError(f"CME sequence gap detected for {event.instrument}")
+            raise ValueError(
+                f"CME sequence gap detected for {event.instrument}: "
+                f"{previous_sequence} -> {event.sequence}"
+            )
 
         # A market-data book can still receive clear/reset messages outside OPEN.
         if state.status in {TradingStatus.HALTED, TradingStatus.CLOSED} and event.action not in {
@@ -111,6 +125,21 @@ class CMEReplayValidator:
         # Sequence validation is handled above with CME/provider semantics.
         state.book.apply(event.model_copy(update={"sequence": None}))
         state.event_count += 1
+
+    def queue_ahead(self, instrument: str, order_id: str) -> QueueAhead:
+        state = self.state(instrument)
+        order = state.book.orders.get(order_id)
+        if order is None:
+            raise KeyError(f"unknown order: {order_id}")
+        queue = state.book.queue(order.side, order.price)
+        quantity = 0
+        count = 0
+        for queued in queue:
+            if queued.order_id == order_id:
+                return QueueAhead(orders_ahead=count, quantity_ahead=quantity)
+            count += 1
+            quantity += queued.size
+        raise AssertionError("order exists in book but not in its price queue")
 
     def checkpoint(self, instrument: str) -> ReplayCheckpoint:
         state = self.state(instrument)
