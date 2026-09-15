@@ -17,7 +17,7 @@ dependencies = [
   "pydantic>=2.9",
   "typer>=0.12",
   "rich>=13.8",
-  "numpy>=2.1",
+  "numpy>=2.5.3",
 ]
 
 [project.optional-dependencies]
