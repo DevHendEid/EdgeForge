@@ -35,7 +35,10 @@ class L3OrderBook:
                 self._reduce(event)
             case Action.DELETE:
                 self._delete(event)
-            case Action.TRADE:
+            case Action.TRADE | Action.FILL:
+                # Normalized trade/fill records can be informational. Any resting
+                # quantity change must arrive as a source-specific lifecycle event
+                # such as CANCEL/EXECUTE rather than being inferred here.
                 return
             case _:
                 raise ValueError(f"unsupported L3 action: {event.action}")

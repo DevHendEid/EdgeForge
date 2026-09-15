@@ -1,0 +1,39 @@
+{
+  "dataset_key": "databento-glbx-mdp3-public-pcap-20230716T133000",
+  "provider": "Databento",
+  "venue": "CME Globex",
+  "source_url": "https://sample-pcaps-dl.databento.com/glbx-all/20230716/dc3-glbx-a-20230716T133000.pcap.zst",
+  "provenance_class": "OFFICIAL_PUBLIC",
+  "license_note": "Official provider-hosted public sample. Use for parser/replay validation; do not generalize this classification to commercial Databento/CME data.",
+  "retrieved_at": "2026-09-15",
+  "raw_format": "CME MDP 3.0 packet capture (PCAP), plus Zstandard-compressed original",
+  "schema": "raw exchange packets; decoding is required before canonical MarketEvent normalization",
+  "evidence_level": "L3-capable validation corpus",
+  "files": [
+    {
+      "path": "data/external/official-samples/databento/dc3-glbx-a-20230716T133000.pcap",
+      "size_bytes": 60824,
+      "sha256": "cfd06c71c99c0b3fd33f7ee3285b2bbbba9c4f03cb65d362e60a16f2d78a99e1"
+    },
+    {
+      "path": "data/external/official-samples/databento/dc3-glbx-a-20230716T133000.pcap.zst",
+      "size_bytes": 15597,
+      "sha256": "59cbedb003fdbfa0ee800c31ac936f1c30053389dd4108f0e6d8ac679c242d6b"
+    }
+  ],
+  "reference_decoders": [
+    "external/github/cme-databento/MDP-Order-Book-Generator",
+    "external/github/cme-databento/cme.mdp",
+    "external/github/cme-databento/mdp3-book"
+  ],
+  "admissible_uses": [
+    "CME packet/parser smoke testing",
+    "book reconstruction differential validation",
+    "deterministic replay regression fixtures derived with provenance"
+  ],
+  "not_admissible_for": [
+    "long-horizon strategy performance claims",
+    "claims about multi-year CME execution quality",
+    "redistribution assumptions for commercial market data"
+  ]
+}
