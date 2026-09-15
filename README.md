@@ -4,12 +4,14 @@
 
 EdgeForge is an evidence-first platform for discovering, testing, validating, and eventually monitoring quantitative strategies. It is designed around market microstructure, order flow, liquidity, deterministic replay, reproducible research, and strict separation between development and out-of-sample evidence.
 
+> **Start here:** [`docs/MASTER_ROADMAP.md`](docs/MASTER_ROADMAP.md) is the project-wide work map, phase plan, research lifecycle, evidence gates, and contributor guide.
+
 ## Current implementation status — v0.4.0
 
 - **Phase 0 — Foundation / architecture:** ✅ complete
 - **Phase 1 — L3/MBO event engine + LOBSTER/ITCH:** ✅ complete
 - **Phase 2 — L2/depth + free scale pipeline:** ✅ complete
-- **Phase 3 — CME-specific validation:** ⏳ not implemented yet; sources/interfaces are catalogued only
+- **Phase 3 — CME-specific validation:** ⏳ current active phase
 
 ### Phase 1
 - canonical vendor-independent `MarketEvent`
@@ -66,7 +68,7 @@ Canonical MarketEvent
  features → strategies → execution simulator → validation firewall
 ```
 
-See `docs/PHASE1.md`, `docs/PHASE2.md`, `docs/ARCHITECTURE.md`, `docs/DATASETS.md`, and `docs/RESEARCH_PROTOCOL.md`.
+See `docs/MASTER_ROADMAP.md`, `docs/PHASE1.md`, `docs/PHASE2.md`, `docs/ARCHITECTURE.md`, `docs/DATASETS.md`, and `docs/RESEARCH_PROTOCOL.md`.
 
 ## Quality & security baseline
 
