@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import io
 import struct
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
