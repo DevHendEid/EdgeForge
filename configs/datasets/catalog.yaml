@@ -1,4 +1,4 @@
-version: 1
+version: 2
 policy:
   zero_cost_first: true
   licensed_raw_market_data_must_not_be_committed: true
@@ -7,6 +7,7 @@ policy:
   never_treat_l2_as_mbo: true
   require_event_time_provenance: true
   holdout_data_must_remain_sealed: true
+  public_repository_does_not_imply_data_redistribution_rights: true
 
 phases:
   phase1_order_event_engine:
@@ -15,6 +16,10 @@ phases:
       - nasdaq-itch-sample
       - fi-2010
       - bats-pitch-samples
+    additional:
+      - sgx-full-order-book-github
+      - moex-full-order-book-sample
+
   phase2_scale_and_l2:
     required:
       - okx-l2
@@ -23,15 +28,26 @@ phases:
       - hyperliquid-l2
       - coinbase-live-l2
     optional:
+      - hyperliquid-level4
       - polymarket-orderbook
+      - tardis-crypto
+      - kraken-public
+
   phase3_cme_validation:
     required:
       - cme-mdp-sample
+      - cme-datamine
       - dxfeed-samples
     conditional:
       - algoseek-sandbox
       - databento-glbx-mdp3
       - rithmic-cme
+      - bmll-l3-futures
+      - sierra-historical-depth
+      - iqfeed-futures
+      - lseg-tick-history
+      - massive-futures
+
   phase4_robustness_and_context:
     required:
       - nq-long-ohlcv
@@ -40,6 +56,19 @@ phases:
       - official-economic-calendars
     optional:
       - first-rate-nq-sample
+      - tickdata-futures
+      - quantquote-intraday
+      - optiver-realized-volatility
+
+research_references:
+  - github-cme-mdp
+  - github-nautilus-databento
+  - github-fx-options-vrp
+  - github-deep6
+  - github-nq-quant
+  - github-ml4t
+  - github-databento-python
+  - hf-binance-2026
 
 cme_target_instruments:
   - NQ
