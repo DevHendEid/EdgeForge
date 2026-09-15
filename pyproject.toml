@@ -27,7 +27,7 @@ dev = [
   "hypothesis>=6.112",
   "ruff>=0.6",
   "mypy>=1.11",
-  "pre-commit>=4.0",
+  "pre-commit>=4.6.2",
 ]
 databento = ["databento>=0.47"]
 live = ["websockets>=13"]
