@@ -22,13 +22,18 @@ class Action(StrEnum):
     UPSERT_LEVEL = "upsert_level"
     DELETE_LEVEL = "delete_level"
     TRADE = "trade"
+    FILL = "fill"
 
 
 class MarketEvent(BaseModel):
     """Canonical market event used by every EdgeForge adapter.
 
-    Price is an integer in adapter-defined fixed-point units.  `price_scale`
+    Price is an integer in adapter-defined fixed-point units. ``price_scale``
     records the denominator needed to recover the decimal price.
+
+    ``stream_id`` identifies the sequencing scope when a venue/provider sequence
+    is shared across many instruments. This prevents per-instrument replay from
+    falsely interpreting legitimate interleaving as packet loss.
     """
 
     model_config = ConfigDict(frozen=True)
@@ -38,6 +43,7 @@ class MarketEvent(BaseModel):
     event_ts: datetime
     recv_ts: datetime | None = None
     sequence: int | None = Field(default=None, ge=0)
+    stream_id: str | None = None
     action: Action
     side: Side | None = None
     price: int | None = None
@@ -62,8 +68,10 @@ class MarketEvent(BaseModel):
         if self.action in {Action.UPSERT_LEVEL, Action.DELETE_LEVEL}:
             if self.side is None or self.price is None:
                 raise ValueError("L2 level updates require side and price")
-        if self.action is Action.TRADE and (self.price is None or self.size is None):
-            raise ValueError("TRADE requires price and size")
+        if self.action in {Action.TRADE, Action.FILL} and (
+            self.price is None or self.size is None
+        ):
+            raise ValueError("TRADE/FILL require price and size")
         return self
 
     @property
