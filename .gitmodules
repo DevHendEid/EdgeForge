@@ -1,0 +1,93 @@
+[submodule "external/github/cme-databento/databento-python"]
+	path = external/github/cme-databento/databento-python
+	url = https://github.com/databento/databento-python.git
+[submodule "external/github/cme-databento/openbb-cme-databento"]
+	path = external/github/cme-databento/openbb-cme-databento
+	url = https://github.com/deeleeramone/openbb-cme-databento.git
+[submodule "external/github/cme-databento/data_scraping_cme_databento"]
+	path = external/github/cme-databento/data_scraping_cme_databento
+	url = https://github.com/sevakkhan26/data_scraping_cme_databento.git
+[submodule "external/github/cme-databento/level2-futures-pipeline"]
+	path = external/github/cme-databento/level2-futures-pipeline
+	url = https://github.com/donald-terrasparq/level2-futures-pipeline.git
+[submodule "external/github/cme-databento/macro-ops-databento-streamer"]
+	path = external/github/cme-databento/macro-ops-databento-streamer
+	url = https://github.com/MacroOps/macro-ops-databento-streamer.git
+[submodule "external/github/cme-databento/fx-options-vrp"]
+	path = external/github/cme-databento/fx-options-vrp
+	url = https://github.com/Nicholashsw/fx-options-vrp.git
+[submodule "external/github/cme-databento/cme.mdp"]
+	path = external/github/cme-databento/cme.mdp
+	url = https://github.com/richie-ma/cme.mdp.git
+[submodule "external/github/cme-databento/mdp3-book"]
+	path = external/github/cme-databento/mdp3-book
+	url = https://github.com/WelokkDev/mdp3-book.git
+[submodule "external/github/cme-databento/MDP-Order-Book-Generator"]
+	path = external/github/cme-databento/MDP-Order-Book-Generator
+	url = https://github.com/parthokunda/MDP-Order-Book-Generator.git
+[submodule "external/github/cme-databento/nautilus_trader"]
+	path = external/github/cme-databento/nautilus_trader
+	url = https://github.com/nautechsystems/nautilus_trader.git
+[submodule "external/github/nq-research/DEEP6"]
+	path = external/github/nq-research/DEEP6
+	url = https://github.com/teaceo-debug/DEEP6.git
+[submodule "external/github/nq-research/NasdaqFuturesResearch"]
+	path = external/github/nq-research/NasdaqFuturesResearch
+	url = https://github.com/Tomashcv/NasdaqFuturesResearch.git
+[submodule "external/github/nq-research/nq-quant"]
+	path = external/github/nq-research/nq-quant
+	url = https://github.com/s583381747/nq-quant.git
+[submodule "external/github/nq-research/nq-strategy-b-bot"]
+	path = external/github/nq-research/nq-strategy-b-bot
+	url = https://github.com/prashanthaitha24/nq-strategy-b-bot.git
+[submodule "external/github/nq-research/session-conditions"]
+	path = external/github/nq-research/session-conditions
+	url = https://github.com/johnsontrades1/session-conditions.git
+[submodule "external/github/nq-research/Quantitative-and-Algorithmic-Trading-Research-Project-FMU"]
+	path = external/github/nq-research/Quantitative-and-Algorithmic-Trading-Research-Project-FMU
+	url = https://github.com/RAIZ44/Quantitative-and-Algorithmic-Trading-Research-Project-FMU.git
+[submodule "external/github/nq-research/market-data-strategy-lab"]
+	path = external/github/nq-research/market-data-strategy-lab
+	url = https://github.com/AnthonyMunozPerez/market-data-strategy-lab.git
+[submodule "external/github/nq-research/Trade-Lab"]
+	path = external/github/nq-research/Trade-Lab
+	url = https://github.com/thealgochef/Trade-Lab.git
+[submodule "external/github/nq-research/Futures-Foundation-Model"]
+	path = external/github/nq-research/Futures-Foundation-Model
+	url = https://github.com/johnamcruz/Futures-Foundation-Model.git
+[submodule "external/github/orderbook-microstructure/orderbook"]
+	path = external/github/orderbook-microstructure/orderbook
+	url = https://github.com/bigfatwhale/orderbook.git
+[submodule "external/github/orderbook-microstructure/SGX-Full-OrderBook-Tick-Data-Trading-Strategy"]
+	path = external/github/orderbook-microstructure/SGX-Full-OrderBook-Tick-Data-Trading-Strategy
+	url = https://github.com/rorysroes/SGX-Full-OrderBook-Tick-Data-Trading-Strategy.git
+[submodule "external/github/orderbook-microstructure/machine-learning-for-trading"]
+	path = external/github/orderbook-microstructure/machine-learning-for-trading
+	url = https://github.com/stefan-jansen/machine-learning-for-trading.git
+[submodule "external/github/backtesting-research/backtesting"]
+	path = external/github/backtesting-research/backtesting
+	url = https://github.com/LironKruchinin/backtesting.git
+[submodule "external/github/backtesting-research/myprojectx"]
+	path = external/github/backtesting-research/myprojectx
+	url = https://github.com/jbot-bit/myprojectx.git
+[submodule "external/github/backtesting-research/kairos"]
+	path = external/github/backtesting-research/kairos
+	url = https://github.com/TradeStax/kairos.git
+[submodule "external/github/backtesting-research/claude-projects"]
+	path = external/github/backtesting-research/claude-projects
+	url = https://github.com/Banawastaken/claude-projects.git
+[submodule "external/github/backtesting-research/Nexus"]
+	path = external/github/backtesting-research/Nexus
+	url = https://github.com/Jozosco/Nexus.git
+[submodule "external/github/tooling/databento-mcp-server"]
+	path = external/github/tooling/databento-mcp-server
+	url = https://github.com/Nice-Wolf-Studio/databento-mcp-server.git
+[submodule "external/github/tooling/tradetally"]
+	path = external/github/tooling/tradetally
+	url = https://github.com/GeneBO98/tradetally.git
+[submodule "external/github/tooling/mdrap"]
+	path = external/github/tooling/mdrap
+	url = https://github.com/Aryan-20-04/mdrap.git
+[submodule "external/github/tooling/live"]
+	path = external/github/tooling/live
+	url = https://github.com/ml4t/live.git
