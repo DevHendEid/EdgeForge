@@ -1,0 +1,18 @@
+{
+  "provider": "Databento",
+  "dataset": "GLBX.MDP3",
+  "schema": "mbo",
+  "symbols": [],
+  "start": null,
+  "end": null,
+  "retrieved_at": null,
+  "job_id": null,
+  "source_account_entitlement_note": null,
+  "files": [
+    {
+      "path": null,
+      "size_bytes": null,
+      "sha256": null
+    }
+  ]
+}
