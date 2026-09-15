@@ -16,6 +16,7 @@ def ev(
     side: Side | None = None,
     price: int | None = None,
     size: int | None = None,
+    priority: int | None = None,
 ) -> MarketEvent:
     return MarketEvent(
         venue="CME",
@@ -27,6 +28,7 @@ def ev(
         side=side,
         price=price,
         size=size,
+        priority=priority,
     )
 
 
@@ -63,6 +65,19 @@ def test_halted_book_rejects_mutating_updates_but_allows_clear() -> None:
 
     validator.apply(ev(2, Action.CLEAR))
     assert validator.checkpoint("NQZ6").order_count == 0
+
+
+def test_queue_ahead_uses_priority_order() -> None:
+    validator = CMEReplayValidator()
+    validator.apply(
+        ev(1, Action.ADD, order_id="front", side=Side.BID, price=100, size=3, priority=1)
+    )
+    validator.apply(
+        ev(2, Action.ADD, order_id="target", side=Side.BID, price=100, size=2, priority=2)
+    )
+    ahead = validator.queue_ahead("NQZ6", "target")
+    assert ahead.orders_ahead == 1
+    assert ahead.quantity_ahead == 3
 
 
 def test_checkpoint_is_deterministic_and_comparable() -> None:
