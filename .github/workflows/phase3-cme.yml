@@ -34,16 +34,52 @@ jobs:
 
       - name: Phase 3 unit and invariant tests
         run: |
-          pytest -q tests/unit/test_databento_mbo.py tests/unit/test_cme_validation.py tests/unit/test_inventory.py
+          pytest -q \
+            tests/unit/test_databento_mbo.py \
+            tests/unit/test_cme_validation.py \
+            tests/unit/test_cme_pcap_snapshot.py \
+            tests/unit/test_inventory.py
 
       - name: Deterministic replay benchmark smoke test
         run: python scripts/phase3_benchmark_replay.py --events 5000
 
-      - name: Compile independent CME MDP3 reference decoder
+      - name: Build independent CME MDP3 reference parser
         run: |
           sudo apt-get update
           sudo apt-get install -y g++ libpcap-dev zstd
           git submodule update --init external/github/cme-databento/MDP-Order-Book-Generator
-          cd external/github/cme-databento/MDP-Order-Book-Generator
-          g++ -std=c++17 main.cpp -o /tmp/edgeforge-mdp3-reference -lpcap
-          test -x /tmp/edgeforge-mdp3-reference
+          g++ -std=c++17 \
+            -Iexternal/github/cme-databento/MDP-Order-Book-Generator \
+            tools/phase3/reference_snapshot_dump.cpp \
+            -o /tmp/reference_snapshot_dump \
+            -lpcap
+          test -x /tmp/reference_snapshot_dump
+
+      - name: Decode official sample with EdgeForge
+        run: |
+          python scripts/phase3_snapshot_summary.py \
+            data/external/official-samples/databento/dc3-glbx-a-20230716T133000.pcap \
+            --output /tmp/edgeforge_snapshot_summary.json
+
+      - name: Decode official sample with independent reference
+        run: |
+          /tmp/reference_snapshot_dump \
+            data/external/official-samples/databento/dc3-glbx-a-20230716T133000.pcap \
+            > /tmp/reference_snapshot.csv
+          test -s /tmp/reference_snapshot.csv
+
+      - name: Require zero unexplained snapshot divergence
+        run: |
+          python scripts/phase3_compare_snapshot_reference.py \
+            /tmp/edgeforge_snapshot_summary.json \
+            /tmp/reference_snapshot.csv \
+            --report /tmp/phase3_differential_report.json
+
+      - name: Upload Phase 3 validation evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase3-cme-validation-evidence
+          path: |
+            /tmp/edgeforge_snapshot_summary.json
+            /tmp/reference_snapshot.csv
+            /tmp/phase3_differential_report.json
