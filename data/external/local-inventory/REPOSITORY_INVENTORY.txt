@@ -1,0 +1,220 @@
+Market Data Research Repository Inventory
+Generated: 2026-09-15T14:10:29+02:00
+
+============================================================
+/home/hend/market-data-repos/backtesting-research/myprojectx
+REMOTE: https://github.com/jbot-bit/myprojectx.git
+HEAD: 75a2617c8d374ec1d47b1c06e1547d78caae9753
+BRANCH: main
+SIZE: 324M
+
+============================================================
+/home/hend/market-data-repos/backtesting-research/backtesting
+REMOTE: https://github.com/LironKruchinin/backtesting.git
+HEAD: 5f4d909180aa84f1536d842939e073577a83d4f7
+BRANCH: main
+SIZE: 16M
+
+============================================================
+/home/hend/market-data-repos/backtesting-research/Nexus
+REMOTE: https://github.com/Jozosco/Nexus.git
+HEAD: c1dbe7f2896215fa9f9edc07cbb4c0b05aa95508
+BRANCH: main
+SIZE: 3.3G
+
+============================================================
+/home/hend/market-data-repos/backtesting-research/claude-projects
+REMOTE: https://github.com/Banawastaken/claude-projects.git
+HEAD: aef67e2a8b92976289249f339bb774174d504cf1
+BRANCH: claude/prop-firm-strategies-bvor8w
+SIZE: 316M
+
+============================================================
+/home/hend/market-data-repos/backtesting-research/kairos
+REMOTE: https://github.com/TradeStax/kairos.git
+HEAD: d12ca7324b86c2946002f56c25b747567425b983
+BRANCH: main
+SIZE: 20M
+
+============================================================
+/home/hend/market-data-repos/orderbook-microstructure/machine-learning-for-trading
+REMOTE: https://github.com/stefan-jansen/machine-learning-for-trading.git
+HEAD: 5f1b32b4eada63c491693ea874b50f2cc703e2f4
+BRANCH: main
+SIZE: 1.6G
+
+============================================================
+/home/hend/market-data-repos/orderbook-microstructure/orderbook
+REMOTE: https://github.com/bigfatwhale/orderbook.git
+HEAD: 737715d148f825cddf4beeb526f4239a2e81d85d
+BRANCH: master
+SIZE: 65M
+
+============================================================
+/home/hend/market-data-repos/orderbook-microstructure/SGX-Full-OrderBook-Tick-Data-Trading-Strategy
+REMOTE: https://github.com/rorysroes/SGX-Full-OrderBook-Tick-Data-Trading-Strategy.git
+HEAD: cd3411f4730f601ae1e2db2ba457f38ebf0ece95
+BRANCH: master
+SIZE: 125M
+
+============================================================
+/home/hend/market-data-repos/tooling/mdrap
+REMOTE: https://github.com/Aryan-20-04/mdrap.git
+HEAD: 719eea90a9271eadbc34a331d6c20a10e2a60184
+BRANCH: main
+SIZE: 4.7M
+
+============================================================
+/home/hend/market-data-repos/tooling/databento-mcp-server
+REMOTE: https://github.com/Nice-Wolf-Studio/databento-mcp-server.git
+HEAD: 53519c2a581f4ade16f51fb655c3b536cd57ecb0
+BRANCH: main
+SIZE: 1.4M
+
+============================================================
+/home/hend/market-data-repos/tooling/tradetally
+REMOTE: https://github.com/GeneBO98/tradetally.git
+HEAD: 16b0fe7bae3f066b87124422ac4f377fb84606ff
+BRANCH: main
+SIZE: 72M
+
+============================================================
+/home/hend/market-data-repos/tooling/live
+REMOTE: https://github.com/ml4t/live.git
+HEAD: b612e1bcd77d2a8c620eff3fadda3de0f3ca3b65
+BRANCH: main
+SIZE: 15M
+
+============================================================
+/home/hend/market-data-repos/cme-databento/MDP-Order-Book-Generator
+REMOTE: https://github.com/parthokunda/MDP-Order-Book-Generator.git
+HEAD: 421743685311fb9a7eddee8f629486fd1830d107
+BRANCH: main
+SIZE: 908K
+
+============================================================
+/home/hend/market-data-repos/cme-databento/level2-futures-pipeline
+REMOTE: https://github.com/donald-terrasparq/level2-futures-pipeline.git
+HEAD: f3cf5190865a987c65c447975d5055c7d0981a68
+BRANCH: main
+SIZE: 764K
+
+============================================================
+/home/hend/market-data-repos/cme-databento/databento-python
+REMOTE: https://github.com/databento/databento-python.git
+HEAD: e675ef30369f5ee9f68b04606080c519adf3be69
+BRANCH: main
+SIZE: 3.5M
+
+============================================================
+/home/hend/market-data-repos/cme-databento/data_scraping_cme_databento
+REMOTE: https://github.com/sevakkhan26/data_scraping_cme_databento.git
+HEAD: 555960df22022d8b268d8350805d95c2b2037a33
+BRANCH: master
+SIZE: 712K
+
+============================================================
+/home/hend/market-data-repos/cme-databento/nautilus_trader
+REMOTE: https://github.com/nautechsystems/nautilus_trader.git
+HEAD: 21ecc5f8541e5c840ef108f5a6ed6f4434f43a4f
+BRANCH: develop
+SIZE: 409M
+
+============================================================
+/home/hend/market-data-repos/cme-databento/cme.mdp
+REMOTE: https://github.com/richie-ma/cme.mdp.git
+HEAD: 4d0db0c941c539e1401f949edb0cb46dd1092534
+BRANCH: master
+SIZE: 45M
+
+============================================================
+/home/hend/market-data-repos/cme-databento/fx-options-vrp
+REMOTE: https://github.com/Nicholashsw/fx-options-vrp.git
+HEAD: b1a80ae74ff613c4cae1c9644df9a3d9f7c82e1a
+BRANCH: main
+SIZE: 3.7M
+
+============================================================
+/home/hend/market-data-repos/cme-databento/mdp3-book
+REMOTE: https://github.com/WelokkDev/mdp3-book.git
+HEAD: c3de0f2ff752760d0a32fca2f65ca2a43ab6f0a7
+BRANCH: main
+SIZE: 980K
+
+============================================================
+/home/hend/market-data-repos/cme-databento/openbb-cme-databento
+REMOTE: https://github.com/deeleeramone/openbb-cme-databento.git
+HEAD: f0cc30b2911d59687cb284ceb921622bdb476da6
+BRANCH: main
+SIZE: 920K
+
+============================================================
+/home/hend/market-data-repos/cme-databento/macro-ops-databento-streamer
+REMOTE: https://github.com/MacroOps/macro-ops-databento-streamer.git
+HEAD: b2a65f26689ef33c7ce0d73428e65c413934b3fa
+BRANCH: main
+SIZE: 244K
+
+============================================================
+/home/hend/market-data-repos/nq-research/session-conditions
+REMOTE: https://github.com/johnsontrades1/session-conditions.git
+HEAD: cf2307675b10daf5acffb7d22106d7fe2d0c2ebd
+BRANCH: main
+SIZE: 516K
+
+============================================================
+/home/hend/market-data-repos/nq-research/nq-strategy-b-bot
+REMOTE: https://github.com/prashanthaitha24/nq-strategy-b-bot.git
+HEAD: bc199e73d733ab41fdc9b4dbaf27a915c93a6b7e
+BRANCH: main
+SIZE: 19M
+
+============================================================
+/home/hend/market-data-repos/nq-research/nq-quant
+REMOTE: https://github.com/s583381747/nq-quant.git
+HEAD: ffe2d077e57b366f7229dbb86df94ed19932777c
+BRANCH: master
+SIZE: 5.6M
+
+============================================================
+/home/hend/market-data-repos/nq-research/Trade-Lab
+REMOTE: https://github.com/thealgochef/Trade-Lab.git
+HEAD: a191202fda424b3855ae4834c267001df6d902a5
+BRANCH: main
+SIZE: 3.3M
+
+============================================================
+/home/hend/market-data-repos/nq-research/Futures-Foundation-Model
+REMOTE: https://github.com/johnamcruz/Futures-Foundation-Model.git
+HEAD: fbb96c3100106268e75867e313d1be736ca75097
+BRANCH: main
+SIZE: 596M
+
+============================================================
+/home/hend/market-data-repos/nq-research/NasdaqFuturesResearch
+REMOTE: https://github.com/Tomashcv/NasdaqFuturesResearch.git
+HEAD: 240fe4871ea270ecc34910093a60ed5506a3c374
+BRANCH: main
+SIZE: 2.3M
+
+============================================================
+/home/hend/market-data-repos/nq-research/Quantitative-and-Algorithmic-Trading-Research-Project-FMU
+REMOTE: https://github.com/RAIZ44/Quantitative-and-Algorithmic-Trading-Research-Project-FMU.git
+HEAD: 52e993580f72a910e1054dbafab4d8421737b17e
+BRANCH: dev
+SIZE: 1.2G
+
+============================================================
+/home/hend/market-data-repos/nq-research/market-data-strategy-lab
+REMOTE: https://github.com/AnthonyMunozPerez/market-data-strategy-lab.git
+HEAD: a2cfefd437ace926f3d600dd58cfe9ffb8e246c0
+BRANCH: main
+SIZE: 824K
+
+============================================================
+/home/hend/market-data-repos/nq-research/DEEP6
+REMOTE: https://github.com/teaceo-debug/DEEP6.git
+HEAD: 5e29e85b2690d322cc8daa6af55309cb0ea0245d
+BRANCH: main
+SIZE: 420M
+
