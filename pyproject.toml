@@ -13,7 +13,7 @@ authors = [{name = "EdgeForge Contributors"}]
 dependencies = [
   "polars>=1.6",
   "pyarrow>=17",
-  "duckdb>=1.1",
+  "duckdb>=1.5.5",
   "pydantic>=2.9",
   "typer>=0.12",
   "rich>=13.8",
