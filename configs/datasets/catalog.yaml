@@ -1,0 +1,50 @@
+version: 1
+policy:
+  zero_cost_first: true
+  licensed_raw_market_data_must_not_be_committed: true
+  require_manifest_and_sha256: true
+  preserve_raw_source_when_license_allows_local_storage: true
+  never_treat_l2_as_mbo: true
+  require_event_time_provenance: true
+  holdout_data_must_remain_sealed: true
+
+phases:
+  phase1_order_event_engine:
+    required:
+      - lobster-sample
+      - nasdaq-itch-sample
+      - fi-2010
+      - bats-pitch-samples
+  phase2_scale_and_l2:
+    required:
+      - okx-l2
+      - binance-public
+      - bybit-public
+      - hyperliquid-l2
+      - coinbase-live-l2
+    optional:
+      - polymarket-orderbook
+  phase3_cme_validation:
+    required:
+      - cme-mdp-sample
+      - dxfeed-samples
+    conditional:
+      - algoseek-sandbox
+      - databento-glbx-mdp3
+      - rithmic-cme
+  phase4_robustness_and_context:
+    required:
+      - nq-long-ohlcv
+      - cboe-vix
+      - fred-macro
+      - official-economic-calendars
+    optional:
+      - first-rate-nq-sample
+
+cme_target_instruments:
+  - NQ
+  - ES
+  - YM
+  - RTY
+  - CL
+  - GC

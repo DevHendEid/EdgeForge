@@ -1,0 +1,17 @@
+version: 1
+sources:
+  - key: lobster-sample
+    role: l3_replay_validation
+    bundled: false
+  - key: nasdaq-itch-sample
+    role: raw_order_event_parser_validation
+    bundled: false
+  - key: fi-2010
+    role: ml_and_validation_benchmark
+    bundled: false
+  - key: cme-mdp-sample
+    role: cme_protocol_validation
+    bundled: false
+policy:
+  licensed_raw_market_data_must_not_be_committed: true
+  require_manifest_and_sha256: true

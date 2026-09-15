@@ -1,0 +1,21 @@
+phase: 1
+name: genuine-event-engine
+sources:
+  - key: lobster-official-samples
+    role: deterministic visible-order lifecycle and replay validation
+    grade: L3-like visible order events
+    redistribution: do_not_bundle_paid_data
+  - key: nasdaq-totalview-itch-samples
+    role: binary/event parser and full visible-book reconstruction
+    grade: order-event feed
+    redistribution: retain_source_terms
+  - key: cme-mdp-official-samples
+    role: future CME-specific adapter validation
+    grade: CME MBO/MBP sample
+    redistribution: official_samples_only
+acceptance:
+  - deterministic state hash
+  - no negative resting sizes
+  - sequence gap accounting
+  - add/cancel/execute/delete lifecycle covered
+  - canonical JSONL round trip

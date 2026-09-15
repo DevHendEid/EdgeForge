@@ -1,0 +1,4 @@
+title = "DevHendEid gitleaks configuration"
+[allowlist]
+description = "Known non-secret placeholders"
+regexes = ['EXAMPLE[_-]?KEY', 'changeme']

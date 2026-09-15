@@ -1,0 +1,28 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+.env
+*.db
+*.duckdb
+*.parquet
+*.arrow
+*.feather
+*.dbn
+*.dbn.zst
+*.pcap
+*.pcap.gz
+*.h5
+*.hdf5
+*.pkl
+*.zip
+*.gz
+# Raw/licensed market data
+/data/raw/*
+!/data/raw/.gitkeep
+# Generated canonical data
+/data/canonical/*
+!/data/canonical/.gitkeep

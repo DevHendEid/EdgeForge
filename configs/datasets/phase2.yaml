@@ -1,0 +1,21 @@
+phase: 2
+name: free-depth-scale-validation
+sources:
+  - key: okx-historical-l2
+    role: large-scale snapshot+delta L2 stress testing
+    grade: L2
+  - key: binance-public-depth
+    role: live/recorded depth normalization and replay
+    grade: L2
+  - key: hyperliquid-historical-l2
+    role: historical depth stress corpus
+    grade: L2
+  - key: coinbase-live-l2
+    role: self-recorded future corpus
+    grade: L2
+acceptance:
+  - snapshot and delta semantics
+  - gap/duplicate/regression metrics
+  - streaming JSONL normalization
+  - optional Parquet ZSTD output
+  - replay invariant checks
