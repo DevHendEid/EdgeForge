@@ -1,0 +1,41 @@
+{
+  "dataset_id": "moex-full-order-book-type-a-sample-2014-09-01_2014-09-05",
+  "provider": "Moscow Exchange (MOEX)",
+  "product": "Historical Full Order Book - Type A",
+  "source_page": "https://www.moex.com/ru/RegistrationSubscriptions/freeTrial.aspx",
+  "service_description": "https://www.moex.com/a2863",
+  "market_data_policy": "https://www.moex.com/en/datapolicy/",
+  "sample_start": "2014-09-01",
+  "sample_end": "2014-09-05",
+  "format": "CSV archives",
+  "markets": [
+    "derivatives/futures",
+    "currencies",
+    "equities",
+    "options"
+  ],
+  "expected_sample_sizes_from_provider_page": {
+    "futures": "230 MB",
+    "currencies": "370 MB",
+    "equities": "206 MB",
+    "options": "114 MB"
+  },
+  "raw_committed_to_git": false,
+  "redistribution_permission_verified": false,
+  "edgeforge_use": [
+    "parser validation",
+    "canonical event normalization",
+    "order-book reconstruction",
+    "sequence/gap checks",
+    "replay-engine tests"
+  ],
+  "cme_nq_validation_dataset": false,
+  "local_storage_hint": ".data/external/moex/full_order_book/2014-09-01_2014-09-05/",
+  "sha256": {
+    "futures": null,
+    "currencies": null,
+    "equities": null,
+    "options": null
+  },
+  "notes": "Raw archives remain external until redistribution rights are explicitly established. Record checksums after official download."
+}
