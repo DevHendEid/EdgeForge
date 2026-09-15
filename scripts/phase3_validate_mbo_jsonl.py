@@ -50,7 +50,7 @@ def main() -> int:
         validator.apply(event)
 
     payload: dict[str, Any] = {}
-    for instrument in sorted(validator._states):  # intentionally report every touched instrument
+    for instrument in validator.instruments:
         state = validator.state(instrument)
         payload[instrument] = {
             "checkpoint": asdict(validator.checkpoint(instrument)),
