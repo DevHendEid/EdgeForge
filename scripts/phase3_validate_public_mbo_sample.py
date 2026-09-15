@@ -194,9 +194,10 @@ def main() -> int:
 
     action_counts = Counter(str(row["action"]) for row in decoded_rows)
     adapter = DatabentoMBOAdapter(decoded_rows)
-    # A downloaded prefix may begin/end mid-channel. Gaps are reported, while exact
-    # lifecycle state is the differential gate below.
-    validator = CMEReplayValidator(fail_on_gap=False)
+    # A normalized historical sample can interleave/reorder native channel sequence
+    # values relative to its exported event ordering. We record gap/regression
+    # diagnostics, but reserve fail-closed sequence enforcement for raw stream replay.
+    validator = CMEReplayValidator(fail_on_gap=False, fail_on_regression=False)
     event_count = 0
     for event in adapter.read():
         validator.apply(event)
