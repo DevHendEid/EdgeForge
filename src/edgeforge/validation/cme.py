@@ -47,7 +47,6 @@ class SequenceDiagnostics:
 class ReplayCheckpoint:
     instrument: str
     event_count: int
-    venue_sequence: int | None
     best_bid: tuple[int, int] | None
     best_ask: tuple[int, int] | None
     order_count: int
@@ -64,7 +63,6 @@ class QueueAhead:
 @dataclass(slots=True)
 class CMEInstrumentState:
     book: L3OrderBook = field(default_factory=L3OrderBook)
-    sequence: SequenceDiagnostics = field(default_factory=SequenceDiagnostics)
     status: TradingStatus = TradingStatus.UNKNOWN
     event_count: int = 0
 
@@ -72,15 +70,15 @@ class CMEInstrumentState:
 class CMEReplayValidator:
     """CME-specific deterministic replay wrapper with fail-closed diagnostics.
 
-    Venue sequence diagnostics are intentionally kept outside ``L3OrderBook`` because
-    exchange/native messages may normalize into more than one MBO record with the same
-    venue sequence number. The book therefore receives a copy with ``sequence=None``;
-    regressions and gaps are tracked explicitly here instead of being conflated with a
-    duplicate canonical event.
+    CME/provider sequence numbers are stream/channel scoped, not instrument scoped.
+    EdgeForge therefore tracks sequence diagnostics by ``MarketEvent.stream_id`` and
+    keeps instrument book state separately. This avoids false gap reports when many
+    instruments are interleaved on one multicast/provider channel.
     """
 
     def __init__(self, *, fail_on_gap: bool = True, fail_on_regression: bool = True) -> None:
         self._states: dict[str, CMEInstrumentState] = {}
+        self._streams: dict[str, SequenceDiagnostics] = {}
         self.fail_on_gap = fail_on_gap
         self.fail_on_regression = fail_on_regression
 
@@ -88,41 +86,57 @@ class CMEReplayValidator:
     def instruments(self) -> tuple[str, ...]:
         return tuple(sorted(self._states))
 
+    @property
+    def streams(self) -> tuple[str, ...]:
+        return tuple(sorted(self._streams))
+
     def state(self, instrument: str) -> CMEInstrumentState:
         return self._states.setdefault(instrument, CMEInstrumentState())
+
+    def stream_diagnostics(self, stream_id: str) -> SequenceDiagnostics:
+        return self._streams.setdefault(stream_id, SequenceDiagnostics())
 
     def set_status(self, instrument: str, status: TradingStatus) -> None:
         self.state(instrument).status = status
 
     def apply(self, event: MarketEvent) -> None:
         state = self.state(event.instrument)
-        previous_sequence = state.sequence.last_sequence
-        previous_gaps = state.sequence.gaps
-        previous_regressions = state.sequence.regressions
-        state.sequence.observe(event.sequence)
 
-        if self.fail_on_regression and state.sequence.regressions > previous_regressions:
-            raise ValueError(
-                f"CME sequence regression for {event.instrument}: {event.sequence} "
-                f"after {previous_sequence}"
-            )
-        if self.fail_on_gap and state.sequence.gaps > previous_gaps:
-            raise ValueError(
-                f"CME sequence gap detected for {event.instrument}: "
-                f"{previous_sequence} -> {event.sequence}"
-            )
+        # Sequence validation is only meaningful when the adapter identifies the
+        # sequencing scope. With no stream_id, we preserve the event but do not make
+        # packet-loss claims from an instrument-filtered sequence.
+        if event.sequence is not None and event.stream_id is not None:
+            diagnostics = self.stream_diagnostics(event.stream_id)
+            previous_sequence = diagnostics.last_sequence
+            previous_gaps = diagnostics.gaps
+            previous_regressions = diagnostics.regressions
+            diagnostics.observe(event.sequence)
 
-        # A market-data book can still receive clear/reset messages outside OPEN.
+            if self.fail_on_regression and diagnostics.regressions > previous_regressions:
+                raise ValueError(
+                    f"CME sequence regression for stream {event.stream_id}: "
+                    f"{event.sequence} after {previous_sequence}"
+                )
+            if self.fail_on_gap and diagnostics.gaps > previous_gaps:
+                raise ValueError(
+                    f"CME sequence gap detected for stream {event.stream_id}: "
+                    f"{previous_sequence} -> {event.sequence}"
+                )
+
+        # A market-data book can still receive clear/reset and informational records
+        # outside OPEN.
         if state.status in {TradingStatus.HALTED, TradingStatus.CLOSED} and event.action not in {
             Action.CLEAR,
             Action.TRADE,
+            Action.FILL,
         }:
             raise ValueError(
                 f"book-mutating event {event.action} received while {event.instrument} "
                 f"status={state.status}"
             )
 
-        # Sequence validation is handled above with CME/provider semantics.
+        # The generic L3 book must not re-interpret a provider/channel sequence as an
+        # instrument-local strictly increasing sequence.
         state.book.apply(event.model_copy(update={"sequence": None}))
         state.event_count += 1
 
@@ -147,7 +161,6 @@ class CMEReplayValidator:
         return ReplayCheckpoint(
             instrument=instrument,
             event_count=state.event_count,
-            venue_sequence=state.sequence.last_sequence,
             best_bid=state.book.best_bid(),
             best_ask=state.book.best_ask(),
             order_count=len(state.book.orders),
@@ -171,7 +184,6 @@ def compare_checkpoints(
 
     fields = (
         "event_count",
-        "venue_sequence",
         "best_bid",
         "best_ask",
         "order_count",
