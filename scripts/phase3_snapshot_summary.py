@@ -4,7 +4,10 @@ import argparse
 import json
 from pathlib import Path
 
-from edgeforge.data.adapters.cme_pcap_snapshot import SnapshotMessage, iter_snapshot_messages
+from edgeforge.data.adapters.cme_pcap_snapshot import SnapshotLevel, iter_snapshot_messages
+
+
+LevelKey = tuple[str, int]
 
 
 def main() -> int:
@@ -13,23 +16,41 @@ def main() -> int:
     parser.add_argument("--output", type=Path, default=Path("phase3_snapshot_summary.json"))
     args = parser.parse_args()
 
-    latest: dict[int, SnapshotMessage] = {}
     count = 0
+    latest_meta: dict[int, dict[str, int]] = {}
+    levels: dict[int, dict[LevelKey, tuple[int, SnapshotLevel]]] = {}
+
     for snapshot in iter_snapshot_messages(args.pcap):
         count += 1
-        current = latest.get(snapshot.security_id)
-        if current is None or snapshot.sending_time_ns >= current.sending_time_ns:
-            latest[snapshot.security_id] = snapshot
+        security_levels = levels.setdefault(snapshot.security_id, {})
+        for level in snapshot.levels:
+            key = (level.side.value, level.level)
+            current = security_levels.get(key)
+            if current is None or snapshot.sending_time_ns >= current[0]:
+                security_levels[key] = (snapshot.sending_time_ns, level)
+
+        current_meta = latest_meta.get(snapshot.security_id)
+        if current_meta is None or snapshot.sending_time_ns >= current_meta["sending_time_ns"]:
+            latest_meta[snapshot.security_id] = {
+                "packet_sequence": snapshot.packet_sequence,
+                "sending_time_ns": snapshot.sending_time_ns,
+                "last_sequence_processed": snapshot.last_sequence_processed,
+                "report_sequence": snapshot.report_sequence,
+            }
 
     securities: dict[str, object] = {}
-    for security_id in sorted(latest):
-        snapshot = latest[security_id]
+    for security_id in sorted(levels):
+        ordered_levels = [
+            item[1]
+            for _, item in sorted(
+                levels[security_id].items(),
+                key=lambda entry: (entry[0][0], entry[0][1]),
+            )
+        ]
+        meta = latest_meta[security_id]
         securities[str(security_id)] = {
-            "packet_sequence": snapshot.packet_sequence,
-            "sending_time_ns": snapshot.sending_time_ns,
-            "last_sequence_processed": snapshot.last_sequence_processed,
-            "report_sequence": snapshot.report_sequence,
-            "level_count": len(snapshot.levels),
+            **meta,
+            "level_count": len(ordered_levels),
             "levels": [
                 {
                     "side": level.side.value,
@@ -38,7 +59,7 @@ def main() -> int:
                     "size": level.size,
                     "num_orders": level.num_orders,
                 }
-                for level in snapshot.levels
+                for level in ordered_levels
             ],
         }
 
